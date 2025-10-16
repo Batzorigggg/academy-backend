@@ -9,4 +9,9 @@ const nemeh = Number(prompt("nemeh mungu"));
 
 const avah = Number(prompt("avah mungu"));
 
-console.log( (uldegdel + nemeh ) - avah);
+if( avah > uldegdel + nemeh)
+{
+    console.log("uldegdel hureltsehgui bn");
+}
+else{
+console.log( (uldegdel + nemeh ) - avah);}
