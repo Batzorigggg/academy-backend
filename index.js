@@ -1,12 +1,32 @@
-const username = window.prompt("Nevtreh ner");
-const password = window.prompt("Nuuts ug");
+let b;
+let c = 0;
+    let h = 0;
+    let t = 0;
+//function haichchuluu()
 
-const uldegdel = Math.floor(Math.random() * 10000000) + 10000;
+let input = '1';
+    while( input != 0 )
+{
+    input = window.prompt("haich chuluu daavuu-s negiig oruul");
 
-console.log(uldegdel);
+    const items = ["haich", "chuluu", "daavuu"];
+    const random = Math.floor(Math.random() * items.length);
+    let a = items[random];
 
-const nemeh = Number(prompt("nemeh mungu"));
-
-const avah = Number(prompt("avah mungu"));
-
-console.log( (uldegdel + nemeh ) - avah);
+        switch(a)
+    {
+        case 'haich':
+            if ( input == 'chuluu' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nChi hojloo"); h++; break; }
+            else if ( input == 'haich' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nTentslee"); t++; break; }
+            else if ( input == 'daavuu' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nChi hojigdloo"); c++; break; }
+        case 'daavuu':
+            if ( input == 'chuluu' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nChi hojigdloo"); c++; break; }
+            else if ( input == 'haich' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nChi hojloo"); h++; break; }
+            else if ( input == 'daavuu' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nTentslee"); t++;  break; }
+        case 'chuluu':
+            if ( input == 'chuluu' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nTentslee"); t++; break; }
+            else if ( input == 'haich' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nChi hojigdloo"); c++; break; }
+            else if ( input == 'daavuu' ) { console.log("Hereglegch:",input,"\nComputer:",a,"\nChi hojloo"); h++; break; }
+    }
+    }
+    console.log("Hereglegch hojson too:",h,"\nComputer hojson too:",c,"\nTentssen too:",t);
