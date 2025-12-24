@@ -1,4 +1,4 @@
-import { Document, Schema, Model, ObjectId, Date } from "mongoose";
+import { Document, Schema, model, ObjectId, Date } from "mongoose";
 export interface IComments extends Document {
   name: string;
   email: string;
@@ -14,3 +14,5 @@ const CommentSchema: Schema<IComments> = new Schema({
   text: { type: String, required: true },
   date: { type: Date, required: true },
 });
+
+export const Comments = model<IComments>("comments", CommentSchema);

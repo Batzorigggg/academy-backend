@@ -2,12 +2,12 @@ import { Document, Schema, model } from "mongoose";
 
 interface IRating {
   rating: number;
-  numReviews: number;
-  meter: number;
+  numReviews?: number;
+  meter?: number;
 }
 
 interface ITomatoes extends Document {
-  viewer: IRating;
+  viewer?: IRating;
   fresh?: number;
   critic?: IRating;
   rotten?: number;
@@ -15,23 +15,25 @@ interface ITomatoes extends Document {
 }
 
 export interface IMoviesDocument extends Document {
-  title: string;
-  year: number;
-  plot: string;
-  genre: string[];
-  runtime: number;
-  cast: string[];
-  poster: string;
-  fullpolt: string;
-  relased: Date;
-  languages: string[];
-  directors: string[];
-  awards: {
+  title?: string;
+  year?: number;
+  plot?: string;
+  genre?: string[];
+  runtime?: number;
+  cast?: string[];
+  poster?: string;
+  fullplot?: string;
+  released?: Date;
+  imdb?: number;
+  languages?: string[];
+  directors?: string[];
+  metacritic?: number;
+  awards?: {
     wins: number;
     nominations: number;
     text: string;
   };
-  tomatoes: ITomatoes;
+  tomatoes?: ITomatoes;
 }
 
 const TomatoesSchema: Schema<ITomatoes> = new Schema(
@@ -53,17 +55,19 @@ const TomatoesSchema: Schema<ITomatoes> = new Schema(
 );
 
 const MovieSchema: Schema<IMoviesDocument> = new Schema({
-  plot: { type: String, required: true },
-  genre: { type: [String], required: true },
-  title: { type: String, required: true },
-  year: { type: Number, required: true },
-  runtime: { type: Number, required: true },
-  cast: { type: [String], required: true },
-  poster: { type: String, required: true },
-  fullpolt: { type: String, required: true },
-  relased: { type: Date, required: true, default: new Date() },
-  languages: { type: [String], required: true },
-  directors: { type: [String], required: true },
+  plot: { type: String, required: false },
+  genre: { type: [String], required: false },
+  title: { type: String, required: false },
+  year: { type: Number, required: false },
+  runtime: { type: Number, required: false },
+  cast: { type: [String], required: false },
+  poster: { type: String, required: false },
+  fullplot: { type: String, required: false },
+  imdb: { type: Number, required: false },
+  metacritic: { type: Number },
+  released: { type: Date, required: false, default: new Date() },
+  languages: { type: [String], required: false },
+  directors: { type: [String], required: false },
   awards: {
     wins: { type: Number },
     nominations: { type: Number },
