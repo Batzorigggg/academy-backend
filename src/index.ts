@@ -1,27 +1,31 @@
-import express, { Application } from "express";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
 import mongoose from "mongoose";
-import { typeDefs } from "./graphql/schema.ts";
-import { resolvers } from "./graphql/resolvers.ts";
+import { typeDefs, resolvers } from "./apolloServer.ts";
+import { emitWarning } from "node:process";
 
-const startServer = async () => {
-  const app = express();
-
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+mongoose
+  .connect(
+    "mongodb+srv://ekzorigoo_db_user:qdgZAdNZCKRV7dSP@backend-lesson.nrl7x9z.mongodb.net/sample_mflix?appName=backend-lesson"
+  )
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((err: Error) => {
+    console.error("MongoDB connection error:", err);
   });
 
-  await server.start();
-  server.applyMiddleware({ app: app as any });
-  await mongoose.connect(
-    "mongodb+srv://ekzorigoo_db_user:qdgZAdNZCKRV7dSP@backend-lesson.nrl7x9z.mongodb.net/sample_mflix?appName=backend-lesson"
-  );
-  console.log("MongoDB connected");
+export interface IContext {
+  user?: null;
+}
 
-  app.listen({ port: 4000 }, () =>
-    console.log(`Server running at http://localhost:4000${server.graphqlPath}`)
-  );
-};
+const server = new ApolloServer<IContext>({
+  typeDefs,
+  resolvers,
+});
 
-startServer();
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 },
+});
+
+console.log(`🚀  Server ready at: ${url}`);
