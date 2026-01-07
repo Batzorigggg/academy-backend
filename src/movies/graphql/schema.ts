@@ -12,6 +12,10 @@ export const movieTypesDefs = `
     awards: [Award]
    
   }
+    type auth{
+    message: String
+    token: String
+    }
 
   input MovieInput {
     title: String
@@ -22,6 +26,9 @@ export const movieTypesDefs = `
    email: String, password: String, name: String
   }
 
+  input LoginInput {
+  email: String, password: String
+  }
 `;
 
 export const movieQueryTypeDefs = `
@@ -35,8 +42,9 @@ export const movieMutationTypeDefs = `
 
 export const userMutationTypeDefs = `
   signupUser(input:UserInput): String
+  loginUser(input:LoginInput): auth
+
 `;
-// ----------
 export const userTypeDefs = `
   type User {
     _id: ID
