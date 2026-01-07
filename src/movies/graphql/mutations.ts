@@ -1,35 +1,44 @@
 import { Movies, Users } from "../db/models.ts";
 import { type IMovie } from "../types/movie.ts";
 import { type IUser } from "../types/user.ts";
-import { userMutationTypeDefs } from "./schema.ts";
+import bcrypt from "bcrypt";
 
 export const movieMutations = {
   addMovie: async (_root: any, { input }: { input: IMovie }) => {
-    const movie = await Movies.insertOne({});
+    const movie = await Movies.insertOne(input);
 
     return "Success";
   },
 };
 
-export const userMutation = {
-  addUser: async (
-    _root: undefined,
-    { input }: { input: IUser },
-    { name }: { name: string },
-    { email }: { email: string },
-    { password }: { password: string }
-  ) => {
-    const user = await Users.insertOne({ name, email, password });
-    return user;
+export const userMutations = {
+  // loginUser: async (_root: any, { input }: { input: IUser }) => {
+  //   let { email, password } = input;
+  //   const data = await Users.find({
+  //     email,
+  //     password,
+  //   });
+  //   return "login succesfull";
+  // },
+
+  signupUser: async (_root: any, { input }: { input: IUser }) => {
+    let { email, password, name } = input;
+    console.log(input);
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const check = await Users.find({
+      email: email,
+    });
+
+    if (!check) {
+      return " bvrtgeltei bn";
+    }
+    const user = await Users.insertOne({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    return user.name;
   },
 };
-// export const userMutation = {
-//   user: async (
-//     _: any,
-//     { name }: { name: string },
-//     { email }: { email: string },
-//     { password }: { password: string }
-//   ) => {
-//     return await Users.insertOne({ name, email, password });
-//   },
-// };

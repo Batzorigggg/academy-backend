@@ -18,6 +18,10 @@ export const movieTypesDefs = `
     author: String
   }
 
+  input UserInput {
+   email: String, password: String, name: String
+  }
+
 `;
 
 export const movieQueryTypeDefs = `
@@ -30,7 +34,7 @@ export const movieMutationTypeDefs = `
 `;
 
 export const userMutationTypeDefs = `
-  addUser(name:String, email:String,password:String): String
+  signupUser(input:UserInput): String
 `;
 // ----------
 export const userTypeDefs = `
@@ -38,6 +42,7 @@ export const userTypeDefs = `
     _id: ID
     name: String
     email: String
+    password: String
   }
     input UserInput {
     name: String
