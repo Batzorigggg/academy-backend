@@ -4,6 +4,7 @@ import {
   type IMoviesDocument,
 } from "../types/movie.ts";
 import { type IUserDocument } from "../types/user.ts";
+import { type ICommentDocument } from "../types/comment.ts";
 
 const TomatoesSchema: Schema<ITomatoesDocument> = new Schema(
   {
@@ -24,17 +25,18 @@ const TomatoesSchema: Schema<ITomatoesDocument> = new Schema(
 );
 
 const MovieSchema: Schema<IMoviesDocument> = new Schema({
-  plot: { type: String, required: true },
-  genre: { type: [String], required: true },
+  userId: { type: String, required: false },
+  plot: { type: String, required: false },
+  genre: { type: [String], required: false },
   title: { type: String, required: true },
-  year: { type: Number, required: true },
-  runtime: { type: Number, required: true },
-  cast: { type: [String], required: true },
-  poster: { type: String, required: true },
-  fullpolt: { type: String, required: true },
-  relased: { type: Date, required: true, default: new Date() },
-  languages: { type: [String], required: true },
-  directors: { type: [String], required: true },
+  year: { type: Number, required: false },
+  runtime: { type: Number, required: false },
+  cast: { type: [String], required: false },
+  poster: { type: String, required: false },
+  fullpolt: { type: String, required: false },
+  relased: { type: Date, required: false, default: new Date() },
+  languages: { type: [String], required: false },
+  directors: { type: [String], required: false },
   awards: [
     {
       wins: { type: Number },
@@ -43,6 +45,15 @@ const MovieSchema: Schema<IMoviesDocument> = new Schema({
     },
   ],
   tomatoes: TomatoesSchema,
+});
+
+const CommentSchema: Schema<ICommentDocument> = new Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  text: { type: String, required: true },
+  date: { type: Date },
+  movie_id: { type: String, required: false },
+  userId: { type: String, required: false },
 });
 
 const UserSchema: Schema<IUserDocument> = new Schema({
@@ -54,3 +65,5 @@ const UserSchema: Schema<IUserDocument> = new Schema({
 export const Movies = model<IMoviesDocument>("movies", MovieSchema);
 
 export const Users = model<IUserDocument>("user", UserSchema);
+
+export const Comments = model<ICommentDocument>("comment", CommentSchema);

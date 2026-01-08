@@ -7,6 +7,9 @@ export const movieQueries = {
     { title, page }: { title: string; page: number },
     { user }: IContext
   ) => {
+    if (!user) {
+      ("login hiigeegvu");
+    }
     const perPage = 20;
     const skip = (page - 1) * perPage;
 

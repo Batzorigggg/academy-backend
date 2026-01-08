@@ -18,6 +18,7 @@ export interface ITomateos {
 export interface ITomatoesDocument extends ITomateos, Document {}
 
 export interface IMovie {
+  userId: string;
   title: string;
   year: number;
   plot: string;

@@ -1,19 +1,26 @@
-import { Movies, Users } from "../db/models.ts";
+import { Movies, Users, Comments } from "../db/models.ts";
 import { type IMovie } from "../types/movie.ts";
 import { type IUser } from "../types/user.ts";
+import { type IComment } from "../types/comment.ts";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
+import { type IContext } from "../../index.ts";
 
 dotenv.config();
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
 export const movieMutations = {
-  addMovie: async (_root: any, { input }: { input: IMovie }) => {
-    const movie = await Movies.insertOne(input);
+  addMovie: async (
+    _root: any,
+    { input }: { input: IMovie },
+    { user }: IContext
+  ) => {
+    console.log(user);
+    const movie = await Movies.insertOne({ ...input, userId: user._id });
 
-    return "Success";
+    return movie;
   },
 };
 
@@ -66,5 +73,21 @@ export const userMutations = {
     });
 
     return user.name;
+  },
+};
+
+export const commentMutations = {
+  addComment: async (
+    _root: any,
+    { input }: { input: IComment },
+    { user }: IContext,
+    { movie }: IContext
+  ) => {
+    let { name, email, text } = input;
+    await Comments.insertOne({
+      ...input,
+      userId: user._id,
+      // movie_id: movie._id,
+    });
   },
 };
