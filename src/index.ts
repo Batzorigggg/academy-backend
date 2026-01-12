@@ -31,27 +31,42 @@ const server = new ApolloServer<IContext>({
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
   context: async ({ req, res }) => {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization || "";
+    let context: any = {};
+    try {
+      if (!SECRET_KEY) {
+        return "secret key bhgu";
+      }
+      const decoded: any = jwt.verify(authHeader, SECRET_KEY);
 
-    console.log("a", token);
-    if (!token) {
-      return "token bhgu";
-    }
-    if (!SECRET_KEY) {
-      return "secret key bhgu";
-    }
-    const decoded = jwt.verify(token, SECRET_KEY);
+      const userData = await Users.findOne({ email: decoded.email });
 
-    const userDetail = await Users.findOne({
-      email: decoded.email,
-    });
-    if (!userDetail) {
-      return "user bhgu bn";
+      if (userData) {
+        context.user = userData;
+      }
+    } catch (error) {
+      return context;
     }
 
-    return {
-      user: userDetail,
-    };
+    return context;
+
+    // console.log("a", token);
+    // if (!token) {
+    //   return "token bhgu";
+    // }
+
+    // const decoded = jwt.verify(token, SECRET_KEY);
+
+    // const userDetail = await Users.findOne({
+    //   email: decoded.email,
+    // });
+    // if (!userDetail) {
+    //   return "user bhgu bn";
+    // }
+
+    // return {
+    //   user: userDetail,
+    // };
   },
 });
 

@@ -1,60 +1,59 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Create Student with Auth</title>
+    <title>Create User with Auth</title>
   </head>
   <body>
-    <h2>Create Student (Auth via Token)</h2>
+    <h2>Create User (Auth via Token)</h2>
 
-    <!-- <input id="name" placeholder="Name" />
-    <input id="age" type="number" placeholder="Age" />
-    <input id="grade" placeholder="Grade" /> -->
-    <button id="createBtn">Create Student</button>
+    <input id="email" placeholder="email" />
+    <input id="password" type="password" placeholder="pass" />
     <button id="loginBtn">Login</button>
 
     <p id="message"></p>
 
     <script>
-      import userMutations from "../src/movies/graphql/mutations.ts";
-      const endpoint = "https://example.com/graphql"; // GraphQL серверийн URL
+      const endpoint = "http://localhost:4000/"; // GraphQL серверийн URL
 
-      const createBtn = document.getElementById("createBtn");
+      const loginBtn = document.getElementById("loginBtn");
       const message = document.getElementById("message");
 
-      createBtn.addEventListener("click", async () => {
-        const name = document.getElementById("name").value;
-        const age = parseInt(document.getElementById("age").value);
-        const grade = document.getElementById("grade").value;
-
+      loginBtn.addEventListener("click", async () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        console.log(email);
         // localStorage-аас token-г авна
-        const token = localStorage.getItem("authToken");
-        if (!token) {
-          message.textContent = "No token found! Please login first.";
-          return;
-        }
+        // const token = localStorage.getItem("authToken");
+        // if (!token) {
+        //   message.textContent = "No token found! Please login first.";
+        //   return;
+        // }
 
         // GraphQL mutation
         const mutation = `
-        mutation CreateStudent($name: String!, $email: String!, $password: String!) {
-          createStudent(name: $name, email: $email, password: $password) {
-            _id
-            name
-            email
-            password
+          mutation LoginUser($input: LoginInput) {
+            loginUser(input: $input) {
+              message
+              token
+            }
           }
-        }
-      `;
+        `;
 
         try {
           const response = await fetch(endpoint, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // token-г localStorage-аас авсан
+              // Authorization: `Bearer ${token}`, // token-г localStorage-аас авсан
             },
             body: JSON.stringify({
               query: mutation,
-              variables: { name, age, grade },
+              variables: {
+                input: {
+                  email: email,
+                  password: password,
+                },
+              },
             }),
           });
 
@@ -73,6 +72,11 @@
           message.textContent = "Error connecting to server";
         }
       });
+      const signup = async () => {
+        window.location.href = "./signup.html";
+      };
     </script>
+
+    <p><button id="1" onclick="signup()">Signup</button></p>
   </body>
 </html>
