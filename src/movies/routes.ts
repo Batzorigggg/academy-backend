@@ -1,6 +1,5 @@
 import { Router, Request, Response } from "express";
 import { Movies } from "./models";
-import { MovieAddController } from "./controllers";
 
 export const movieRouter = Router();
 
@@ -18,10 +17,7 @@ movieRouter.get("/movies", async (req: Request, res: Response) => {
   res.json(movies);
 });
 
-movieRouter.post("/2", async (req: Request, res: Response) => {
-  await MovieAddController(req, res);
-});
-
-movieRouter.put("/3", async (req: Request, res: Response) => {
-  const a = () => {};
+movieRouter.post("/addMovie", async (req: Request, res: Response) => {
+  console.log(req.body);
+  res.json({ success: true });
 });
