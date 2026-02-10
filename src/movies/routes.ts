@@ -19,7 +19,7 @@ movieRouter.get("/movies", async (req: Request, res: Response) => {
 
 movieRouter.get("/popular", async (req: Request, res: Response) => {
   try {
-    const movies = await Movies.find({}).sort({ "imdb.rating": -1 }).limit(20);
+    const movies = await Movies.find({}).sort({ "imdb.rating": -1 }).limit(250);
 
     res.json(movies);
   } catch (err) {
