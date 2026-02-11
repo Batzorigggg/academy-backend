@@ -17,6 +17,16 @@ movieRouter.get("/movies", async (req: Request, res: Response) => {
   res.json(movies);
 });
 
+movieRouter.get("/popular", async (req: Request, res: Response) => {
+  try {
+    const movies = await Movies.find({}).sort({ "imdb.rating": -1 }).limit(250);
+
+    res.json(movies);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch popular movies" });
+  }
+});
+
 movieRouter.post("/addMovie", async (req: Request, res: Response) => {
   console.log(req.body);
   res.json({ success: true });
