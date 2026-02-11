@@ -27,18 +27,16 @@ movieRouter.get("/popular", async (req: Request, res: Response) => {
   }
 });
 
-movieRouter.get("/movies/:id", async (req, res) => {
-  const { id } = req.params;
+movieRouter.get("/movies/:_id", async (req, res) => {
+  const { _id } = req.params;
   try {
-    const movie = await Movies.findById(id);
+    const movie = await Movies.findById(_id);
     if (!movie) return res.status(404).json({ message: "Movie not found" });
     res.json(movie);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch movie" });
   }
 });
-
-
 
 movieRouter.post("/addMovie", async (req: Request, res: Response) => {
   console.log(req.body);
